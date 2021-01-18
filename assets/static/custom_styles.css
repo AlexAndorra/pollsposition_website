@@ -1,0 +1,93 @@
+/* include Google Web fonts: */
+@import url('https://fonts.googleapis.com/css?family=Lato|Raleway|Quicksand|Arvo|ChunkFive|Chivo|Quattrocento|Quattrocento+Sans');
+
+body {
+    background-color: #f2f2f2;
+    font-size: 1rem;
+    color: #212529;
+    font-family: 'Quattrocento', 'Lato', 'Raleway', 'Quicksand', 'Lora', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding-bottom: 0px;
+}
+
+@font-face {
+    font-family: HeadlineFont;
+    src: url("https://alexandorra.github.io/veni-vidi-cenci/static/Via-Appia.ttf");
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #203ec5;
+    font-family: HeadlineFont, 'Quattrocento', 'Arvo', 'ChunkFive', 'Chivo', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, cursive;
+}
+
+@font-face {
+    font-family: NavbarFont;
+    src: url("https://alexandorra.github.io/veni-vidi-cenci/static/spqr.otf");
+}
+
+.navbar {
+    font-family: NavbarFont, 'Quattrocento', cursive;
+    background-color: #f2f2f2;
+}
+
+a {
+    color: #7a8ee9;
+}
+
+a:hover, a:active {
+    color: #203ec5;
+    text-decoration: none;
+}
+
+.masthead {
+    height: 94vh;
+    min-height: 500px;
+    background-image: url("https://alexandorra.github.io/veni-vidi-cenci/static/images/cenci.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.masthead-sleep {
+    height: 50vh;
+    min-height: 54px;
+    background-image: url("https://alexandorra.github.io/veni-vidi-cenci/static/images/sleepy.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.alternate-row {
+    background-color: #e9ecfc;
+}
+
+.fa-heart {
+    color: #7a8ee9;
+}
+
+footer {
+    color: #e9ecfc;
+    background-color: #030716;
+    padding: 30px;
+    line-height: 36px;
+}
+
+.btn-primary {
+    background-color: #7a8ee9;
+    border-color: #7a8ee9;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background-color: #203ec5;
+    color: #f2f2f2;
+    text-decoration: none;
+}
+
+.center {
+    display: block;
+    margin: 0 auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+

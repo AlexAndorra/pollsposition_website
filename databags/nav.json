@@ -1,0 +1,19 @@
+{
+    "header": [
+        {
+            "title": "Où dormir",
+            "href": "/accomodations",
+            "icon": "fa-bed"
+        },
+        {
+            "title": "Programme",
+            "href": "/schedule",
+            "icon": "fa-calendar-alt"
+        },
+        {
+            "title": "Liste de mariage",
+            "href": "/wedding-list",
+            "icon": "fa-gifts"
+        }
+    ]
+}

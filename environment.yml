@@ -1,0 +1,11 @@
+name: pp-website
+channels:
+- conda-forge
+dependencies:
+  - python
+  - pip
+  - lektor
+  - flask
+  - requests
+  - jinja2
+  - werkzeug

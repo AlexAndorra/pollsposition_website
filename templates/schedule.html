@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block title %}Demandez le programme!{% endblock %}
+{% block og_description %}Consultez l'agenda des festivités{% endblock %}
+
+{% block header %}
+    <header>
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 pt-5 text-center">
+                    <h1 class="display-2 font-weight-bold">Demandez le programme! 🗞️</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 text-center">
+                    <iframe src="https://giphy.com/embed/DhstvI3zZ598Nb1rFf" width="480" height="400" frameBorder="0"
+                            class="giphy-embed" allowFullScreen
+                    ></iframe>
+                </div>
+                <div class="col-lg-6 py-5">
+                    <div class="container text-justify">
+                        <p>
+                            On sait que vous êtes à la fois boute-en-train, curieux <i>et</i> organisés, donc on vous a
+                            mis le <b>programme des festivités ci-dessous</b>.
+                        </p>
+                        <p>
+                            Vous vous sentez l'âme d'un DJ? Peut-être que vous grattez vous-mêmes les platines de temps
+                            en temps? Ou vous souhaitez tout simplement nous <b>suggérer un ou plusieurs morceaux à
+                                                                                passer
+                                                                                pendant la soirée</b>?
+                        </p>
+                        <p>
+                            Parfait: vous trouverez un <b>forum en bas de cette page pour nous faire vos suggestions</b>
+                            -- pour que tout le monde aille au bout de ses rêves!
+                        </p>
+                        <!--
+                        <p>
+                            Et parce que la technologie est là pour nous faciliter la vie, cliquez sur l'icône
+                            ci-dessous pour ajouter le programme automatiquement à votre agenda Google 🍾
+                        </p>
+                        <p>
+                            <b>Lien Google agenda avec schedule </b>
+                        </p>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container text-center">
+            <h2 class="font-weight-light pb-4">🚧 Work in Progress 🚧</h2>
+            <img src="{{ '/static/images/brace.jpeg'|asseturl }}" class="img-fluid"
+                 style="width:36rem; height:30rem; object-fit: cover;" alt="Programme is coming..."
+            >
+        </div>
+    </section>
+
+    <section class="p-5">
+        <div class="container">
+            <h2 class="text-center pb-2">💃 Prêt pour le boogie woogie? 🕺</h2>
+            <p class="text-center lead font-italic">
+                Vous connaissez un morceau capable de faire tourner les serviettes? Commentez ci-dessous pour qu'on
+                l'ajoute à la playlist du mariage!
+            </p>
+            <p class="text-center pb-3">(<span class="font-italic">ou pas, on verra hein, ça reste une démocratie
+                <i>représentative</i></span>
+                😜)
+            </p>
+            <div class="comments py-2">{{ render_disqus_comments() }}</div>
+        </div>
+    </section>
+
+{% endblock %}
