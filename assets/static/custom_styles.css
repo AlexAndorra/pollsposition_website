@@ -5,27 +5,17 @@ body {
     background-color: #f2f2f2;
     font-size: 1rem;
     color: #212529;
-    font-family: 'Quattrocento', 'Lato', 'Raleway', 'Quicksand', 'Lora', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Lato', 'Raleway', 'Quicksand', 'Lora', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans serif;
     padding-bottom: 0px;
-}
-
-@font-face {
-    font-family: HeadlineFont;
-    src: url("https://alexandorra.github.io/veni-vidi-cenci/static/Via-Appia.ttf");
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: #203ec5;
-    font-family: HeadlineFont, 'Quattrocento', 'Arvo', 'ChunkFive', 'Chivo', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, cursive;
-}
-
-@font-face {
-    font-family: NavbarFont;
-    src: url("https://alexandorra.github.io/veni-vidi-cenci/static/spqr.otf");
+    font-family: 'Arvo', 'ChunkFive', 'Chivo', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, serif;
 }
 
 .navbar {
-    font-family: NavbarFont, 'Quattrocento', cursive;
+    font-family: 'Arvo', 'ChunkFive', 'Chivo', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, serif;
     background-color: #f2f2f2;
 }
 
