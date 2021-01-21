@@ -17,12 +17,17 @@ from bokeh.models import (
     Title,
 )
 from bokeh.palettes import cividis, inferno, viridis
-from bokeh.plotting import figure, show
+from bokeh.plotting import figure
 from scipy.special import expit as logistic
 
-st.title("Uber pickups in NYC")
+# https://blog.streamlit.io/introducing-new-layout-options-for-streamlit/
+# https://docs.streamlit.io/en/stable/api.html?highlight=plotly#lay-out-your-app
+# https://docs.streamlit.io/en/stable/main_concepts.html
 
-st.subheader("Raw data")
+# Use the full page instead of a narrow central column
+st.set_page_config(layout="wide") # set more options here
+
+st.title("How popular is the president?")
 
 
 def standardize(series):
@@ -45,7 +50,6 @@ d = pd.read_csv(
     index_col=0,
     parse_dates=True,
 )
-st.write(d)
 
 raw_polls = pd.read_csv(
     "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data"
@@ -152,8 +156,8 @@ def make_plot(
 
     p = figure(
         sizing_mode="scale_both",
-        background_fill_color="#f2f2f2",
-        border_fill_color="#f2f2f2",
+        #width=1250,
+        #height=420,
         x_axis_type="datetime",
         title="Evolution of French presidents' popularity over time",
         x_range=(
@@ -202,7 +206,7 @@ def make_plot(
         fill_alpha=0.4,
         legend_label="94% HDI",
     )
-    hdi = p.patch(
+    p.patch(
         np.concatenate((data_source.index.values, data_source.index.values[::-1])),
         np.concatenate(
             (
@@ -399,3 +403,6 @@ p2.x_range = p1.x_range
 p3.x_range = p1.x_range
 
 st.bokeh_chart(column(p1, p2, p3), use_container_width=True)
+
+st.subheader("Raw data")
+st.write(d)
