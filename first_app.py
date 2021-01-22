@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import xarray as xr
-from bokeh.layouts import column
+from bokeh.layouts import column, layout, Spacer, gridplot
 from bokeh.models import (
     Band,
     ColumnDataSource,
@@ -25,58 +25,34 @@ from scipy.special import expit as logistic
 # https://docs.streamlit.io/en/stable/main_concepts.html
 
 # Use the full page instead of a narrow central column
-st.set_page_config(layout="wide") # set more options here
+#st.set_page_config(layout="wide")  # set more options here
 
 st.title("How popular is the president?")
+
+REPO_STEM = "/Users/alex_andorra/repos/pollsposition_models/popularity"
+
+complete_data = pd.read_csv(
+    f"{REPO_STEM}/plot_data/complete_popularity_data.csv", index_col=0, parse_dates=True
+)
+
+raw_polls = pd.read_csv(
+    f"{REPO_STEM}/plot_data/raw_polls.csv", index_col=0, parse_dates=True
+)
+PREDICTION_COORDS = pd.read_csv(
+    f"{REPO_STEM}/plot_data/prediction_coords.csv",
+    index_col=0,
+    parse_dates=["timesteps"],
+)
+
+trace_econ = az.from_netcdf(f"{REPO_STEM}/trace_raw_econ.nc")
+pp_prop = xr.open_dataset(f"{REPO_STEM}/plot_data/post_pred_approval.nc")
+pp_prop_5 = xr.open_dataset(f"{REPO_STEM}/plot_data/post_pred_approval_5.nc")
+pp_prop_10 = xr.open_dataset(f"{REPO_STEM}/plot_data/post_pred_approval_10.nc")
 
 
 def standardize(series):
     """Standardize a pandas series"""
     return (series - series.mean()) / series.std()
-
-
-def dates_to_idx(timelist):
-    """Convert datetimes to numbers in reference to a given date. Useful for posterior
-    predictions."""
-
-    reference_time = timelist[0]
-    t = (timelist - reference_time) / np.timedelta64(1, "M")
-
-    return np.asarray(t)
-
-
-d = pd.read_csv(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data/complete_popularity_data.csv",
-    index_col=0,
-    parse_dates=True,
-)
-
-raw_polls = pd.read_csv(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data"
-    "/raw_polls.csv",
-    index_col=0,
-    parse_dates=True,
-)
-PREDICTION_COORDS = pd.read_csv(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data/prediction_coords.csv",
-    index_col=0,
-    parse_dates=["timesteps"],
-)
-
-trace_econ = az.from_netcdf(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/trace_raw_econ.nc"
-)
-pp_prop = xr.open_dataset(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data/post_pred_approval.nc"
-)
-pp_prop_5 = xr.open_dataset(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data/post_pred_approval_5.nc"
-)
-pp_prop_10 = xr.open_dataset(
-    "/Users/alex_andorra/repos/pollsposition_models/popularity/plot_data/post_pred_approval_10.nc"
-)
-
-time = dates_to_idx(d.index)
 
 
 def get_data_source(
@@ -155,9 +131,16 @@ def make_plot(
     CDS = ColumnDataSource(data_source)
 
     p = figure(
-        sizing_mode="scale_both",
-        #width=1250,
-        #height=420,
+        # sizing_mode="scale_both",
+        aspect_ratio=16 / 7,
+        # height_policy="fit",
+        # width_policy="fit",
+        # width=1200,
+        # height=400,
+        min_width=560,
+        max_width=1600,
+        min_height=450,
+        max_height=420,
         x_axis_type="datetime",
         title="Evolution of French presidents' popularity over time",
         x_range=(
@@ -376,12 +359,13 @@ random_draws2 = samples_subset(source_df2)
 random_draws3 = samples_subset(source_df3)
 
 p1 = make_plot(
-    subtitle=f"stays at {d.unemployment.iloc[-1]}%",
+    subtitle=f"stays at {complete_data.unemployment.iloc[-1]}%",
     palette=viridis(6),
     random_draws=random_draws1,
     data_source=source_df1,
     post_pred_samples=pp_prop,
 )
+
 p2 = make_plot(
     subtitle="drops to 5%",
     palette=cividis(6),
@@ -389,6 +373,7 @@ p2 = make_plot(
     data_source=source_df2,
     post_pred_samples=pp_prop_5,
 )
+
 p3 = make_plot(
     subtitle="increases to 10%",
     palette=inferno(6),
@@ -402,7 +387,53 @@ p3.title.text = None
 p2.x_range = p1.x_range
 p3.x_range = p1.x_range
 
-st.bokeh_chart(column(p1, p2, p3), use_container_width=True)
+# p3.width_policy = "fit"
+# p3.width = 1200
+# p3.min_width = 550
+# p3.max_width = 1350
+# p3.height_policy = "fit"
+# p3.height = 420
+# p3.min_height = 300
+# p3.max_height = 550
+# plot_layout = layout(
+#     children=[
+#         [p1, p2],
+#         [
+#             Spacer(
+#                 #width_policy="min",
+#                 sizing_mode="scale_both",
+#                 background="red",
+#                 height_policy="fit",
+#                 height=420,
+#                 min_height=300,
+#                 max_height=550,
+#             ),
+#             p3,
+#             Spacer(
+#                 #width_policy="min",
+#                 sizing_mode="scale_both",
+#                 background="red",
+#                 height_policy="fit",
+#                 height=420,
+#                 min_height=300,
+#                 max_height=550,
+#             ),
+#         ],
+#     ],
+#     sizing_mode="scale_both",
+# )
 
-st.subheader("Raw data")
-st.write(d)
+#plot_layout = layout([p1, p2, p3], sizing_mode="scale_both")#, margin=(40, 170, 5, 160))
+plot_layout = gridplot(
+    children=[p1, p2, p3],
+    ncols=1,
+    sizing_mode="scale_both",
+    toolbar_options = dict(logo='grey'),
+)
+st.bokeh_chart(plot_layout, use_container_width=True)
+
+# c1, c2, c3 = st.beta_columns((1, 2, 1))
+# c2.bokeh_chart(p3)
+
+st.subheader("Polls used:")
+st.write(raw_polls)
