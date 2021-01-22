@@ -3,9 +3,10 @@ from typing import Dict, List
 import arviz as az
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import streamlit as st
 import xarray as xr
-from bokeh.layouts import column, layout, Spacer, gridplot
+from bokeh.layouts import gridplot
 from bokeh.models import (
     Band,
     ColumnDataSource,
@@ -25,7 +26,11 @@ from scipy.special import expit as logistic
 # https://docs.streamlit.io/en/stable/main_concepts.html
 
 # Use the full page instead of a narrow central column
-st.set_page_config(layout="wide")  # set more options here
+st.set_page_config(
+    page_title="PollsPosition",
+    page_icon="https://alexandorra.github.io/pollsposition_blog/images/favicon.ico",
+    layout="wide",
+)
 st.title("PollsPosition")
 st.header("Forecasting French elections with Bayesian Statistics")
 
@@ -48,11 +53,6 @@ trace_econ = az.from_netcdf(f"{REPO_STEM}/trace_raw_econ.nc")
 pp_prop = xr.open_dataset(f"{REPO_STEM}/plot_data/post_pred_approval.nc")
 pp_prop_5 = xr.open_dataset(f"{REPO_STEM}/plot_data/post_pred_approval_5.nc")
 pp_prop_10 = xr.open_dataset(f"{REPO_STEM}/plot_data/post_pred_approval_10.nc")
-
-
-def standardize(series):
-    """Standardize a pandas series"""
-    return (series - series.mean()) / series.std()
 
 
 def get_data_source(
@@ -131,16 +131,9 @@ def make_plot(
     CDS = ColumnDataSource(data_source)
 
     p = figure(
-        # sizing_mode="scale_both",
         aspect_ratio=16 / 7.5,
-        # height_policy="fit",
-        # width_policy="fit",
-        # width=1200,
-        #height=400,
         min_width=480,
         max_width=1600,
-        # min_height=450,
-        # max_height=450,
         x_axis_type="datetime",
         title="Evolution of French presidents' popularity over time",
         x_range=(
@@ -349,6 +342,35 @@ def make_plot(
     return p
 
 
+def style_raw_polls(raw_df: pd.DataFrame) -> pd.DataFrame:
+    raw_df = (
+        raw_df.reset_index()
+            .rename(
+            columns={
+                "index": "Date",
+                "p_approve": "Approve",
+                "p_disapprove": "Disapprove",
+                "samplesize": "Sample",
+                "method": "Method",
+                "president": "President",
+                "sondage": "Pollster",
+            }
+        )
+            .sort_values(["Date", "Pollster"], ascending=[False, True])[
+            [
+                "Date",
+                "Pollster",
+                "Approve",
+                "Disapprove",
+                "Sample",
+                "Method",
+                "President",
+            ]
+        ]
+    )
+    return raw_df
+
+
 source_df1 = get_data_source(trace_econ, pp_prop["post_pred_approval"])
 source_df2 = get_data_source(trace_econ, pp_prop_5["post_pred_approval_5"])
 source_df3 = get_data_source(trace_econ, pp_prop_10["post_pred_approval_10"])
@@ -386,48 +408,11 @@ p3.title.text = None
 p2.x_range = p1.x_range
 p3.x_range = p1.x_range
 
-# p3.width_policy = "fit"
-# p3.width = 1200
-# p3.min_width = 550
-# p3.max_width = 1350
-# p3.height_policy = "fit"
-# p3.height = 420
-# p3.min_height = 300
-# p3.max_height = 550
-# plot_layout = layout(
-#     children=[
-#         [p1, p2],
-#         [
-#             Spacer(
-#                 #width_policy="min",
-#                 sizing_mode="scale_both",
-#                 background="red",
-#                 height_policy="fit",
-#                 height=420,
-#                 min_height=300,
-#                 max_height=550,
-#             ),
-#             p3,
-#             Spacer(
-#                 #width_policy="min",
-#                 sizing_mode="scale_both",
-#                 background="red",
-#                 height_policy="fit",
-#                 height=420,
-#                 min_height=300,
-#                 max_height=550,
-#             ),
-#         ],
-#     ],
-#     sizing_mode="scale_both",
-# )
-
-#plot_layout = layout([p1, p2, p3], sizing_mode="scale_both")#, margin=(40, 170, 5, 160))
 plot_layout = gridplot(
     children=[p1, p2, p3],
     ncols=1,
     sizing_mode="scale_both",
-    toolbar_options = dict(logo='grey'),
+    toolbar_options=dict(logo="grey"),
 )
 
 col1, col2 = st.beta_columns((2, 1))
@@ -438,4 +423,11 @@ with col1:
 
 with col2:
     st.subheader("Latest polls:")
-    st.write(raw_polls.sort_index(ascending=False))
+    st.dataframe(
+        style_raw_polls(raw_polls).style.background_gradient(
+            cmap=sns.color_palette("viridis", as_cmap=True),
+            low=0.4,
+            subset=["Approve"],
+        ).format({"Approve": "{:.0%}", "Disapprove": "{:.0%}"}),
+        height=800,
+    )
