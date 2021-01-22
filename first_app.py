@@ -25,9 +25,9 @@ from scipy.special import expit as logistic
 # https://docs.streamlit.io/en/stable/main_concepts.html
 
 # Use the full page instead of a narrow central column
-#st.set_page_config(layout="wide")  # set more options here
-
-st.title("How popular is the president?")
+st.set_page_config(layout="wide")  # set more options here
+st.title("PollsPosition")
+st.header("Forecasting French elections with Bayesian Statistics")
 
 REPO_STEM = "/Users/alex_andorra/repos/pollsposition_models/popularity"
 
@@ -132,15 +132,15 @@ def make_plot(
 
     p = figure(
         # sizing_mode="scale_both",
-        aspect_ratio=16 / 7,
+        aspect_ratio=16 / 7.5,
         # height_policy="fit",
         # width_policy="fit",
         # width=1200,
-        # height=400,
-        min_width=560,
+        #height=400,
+        min_width=480,
         max_width=1600,
-        min_height=450,
-        max_height=420,
+        # min_height=450,
+        # max_height=450,
         x_axis_type="datetime",
         title="Evolution of French presidents' popularity over time",
         x_range=(
@@ -329,7 +329,6 @@ def make_plot(
     p.legend.click_policy = "hide"
     p.legend.location = "top_left"
     p.legend.orientation = "horizontal"
-    p.legend.background_fill_color = "#f2f2f2"
     p.legend.background_fill_alpha = 0.6
 
     # Add the HoverTool to the figure
@@ -430,10 +429,13 @@ plot_layout = gridplot(
     sizing_mode="scale_both",
     toolbar_options = dict(logo='grey'),
 )
-st.bokeh_chart(plot_layout, use_container_width=True)
 
-# c1, c2, c3 = st.beta_columns((1, 2, 1))
-# c2.bokeh_chart(p3)
+col1, col2 = st.beta_columns((2, 1))
 
-st.subheader("Polls used:")
-st.write(raw_polls)
+with col1:
+    st.subheader("How popular is the president?")
+    st.bokeh_chart(plot_layout, use_container_width=True)
+
+with col2:
+    st.subheader("Latest polls:")
+    st.write(raw_polls.sort_index(ascending=False))
