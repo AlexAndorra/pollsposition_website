@@ -1,3 +1,5 @@
+import pathlib
+from datetime import datetime
 from typing import Dict, List
 
 import arviz as az
@@ -20,19 +22,6 @@ from bokeh.models import (
 from bokeh.palettes import cividis, inferno, viridis
 from bokeh.plotting import figure
 from scipy.special import expit as logistic
-
-# https://blog.streamlit.io/introducing-new-layout-options-for-streamlit/
-# https://docs.streamlit.io/en/stable/api.html?highlight=plotly#lay-out-your-app
-# https://docs.streamlit.io/en/stable/main_concepts.html
-
-# Use the full page instead of a narrow central column
-st.set_page_config(
-    page_title="PollsPosition",
-    page_icon="https://alexandorra.github.io/pollsposition_blog/images/favicon.ico",
-    layout="wide",
-)
-st.title("PollsPosition")
-st.header("Forecasting French elections with Bayesian Statistics")
 
 REPO_STEM = "/Users/alex_andorra/repos/pollsposition_models/popularity"
 
@@ -82,6 +71,12 @@ def get_data_source(
     )
 
     return source_df
+
+
+def get_last_update_date(reference_file: str) -> str:
+    graph_file = pathlib.Path(f"{REPO_STEM}/{reference_file}")
+    modified_time = datetime.fromtimestamp(graph_file.stat().st_mtime)
+    return modified_time.strftime("%b %d, %Y")
 
 
 def samples_subset(data_source: pd.DataFrame, frac: float = 0.1) -> Dict[str, List]:
@@ -345,7 +340,7 @@ def make_plot(
 def style_raw_polls(raw_df: pd.DataFrame) -> pd.DataFrame:
     raw_df = (
         raw_df.reset_index()
-            .rename(
+        .rename(
             columns={
                 "index": "Date",
                 "p_approve": "Approve",
@@ -356,7 +351,7 @@ def style_raw_polls(raw_df: pd.DataFrame) -> pd.DataFrame:
                 "sondage": "Pollster",
             }
         )
-            .sort_values(["Date", "Pollster"], ascending=[False, True])[
+        .sort_values(["Date", "Pollster"], ascending=[False, True])[
             [
                 "Date",
                 "Pollster",
@@ -415,6 +410,19 @@ plot_layout = gridplot(
     toolbar_options=dict(logo="grey"),
 )
 
+# set up Streamlit dashboard:
+st.set_page_config(
+    page_title="PollsPosition",
+    page_icon="https://alexandorra.github.io/pollsposition_blog/images/favicon.ico",
+    layout="wide",
+)
+st.title("PollsPosition")
+st.header("Forecasting French elections with Bayesian Statistics")
+st.markdown(
+    f"_By [Alexandre Andorra](https://twitter.com/alex_andorra), last updated "
+    f"{get_last_update_date('gp-popularity.png')}_"
+)
+
 col1, col2 = st.beta_columns((2, 1))
 
 with col1:
@@ -422,12 +430,72 @@ with col1:
     st.bokeh_chart(plot_layout, use_container_width=True)
 
 with col2:
+    st.subheader("What is this?")
+    st.markdown(
+        """
+        These plots try to answer a simple question: how does the popularity of French presidents 
+        evolve with time? I compiled all the popularity opinion polls of French presidents since 
+        the term limits switched to 5 years (in 2002), so we can also compare presidents and see
+        that popularity is very periodic -- it seems natural that a president experiences a dip in 
+        popularity in the middle of his term, so reacting to the latest release poll usually 
+        amounts to reaction to noise. 
+        
+        Each line
+        
+        Counterfactual
+        """
+    )
+    st.subheader("How does it work?")
+    st.markdown(
+        """
+        Gaussian Process model
+        https://alexandorra.github.io/pollsposition_blog/popularity/macron/gaussian%20processes
+        /polls/2021/01/18/gp-popularity.html
+        """
+    )
     st.subheader("Latest polls:")
     st.dataframe(
-        style_raw_polls(raw_polls).style.background_gradient(
-            cmap=sns.color_palette("viridis", as_cmap=True),
-            low=0.4,
-            subset=["Approve"],
-        ).format({"Approve": "{:.0%}", "Disapprove": "{:.0%}"}),
+        style_raw_polls(raw_polls)
+        .style.background_gradient(
+            cmap=sns.color_palette("viridis", as_cmap=True), low=0.4, subset=["Approve"]
+        )
+        .format({"Approve": "{:.0%}", "Disapprove": "{:.0%}"}),
         height=800,
+    )
+
+st.subheader("What to make of this?")
+"bla bla bla"
+
+st.subheader("About PollsPosition")
+c1, c2 = st.beta_columns(2)
+with c1:
+    st.markdown(
+        """
+        The PollsPosition project is an [open-source](
+        https://github.com/AlexAndorra/pollsposition_models) endeavor that stands on the 
+        shoulders of 
+        giants of the [Python](https://www.python.org/) data stack: [PyMC3](https://docs.pymc.io/) 
+        for state-of-the-art MCMC algorithms, [ArviZ](https://arviz-devs.github.io/arviz/) and [
+        Bokeh](
+        https://docs.bokeh.org/en/latest/) for visualizations, and [Pandas](
+        https://pandas.pydata.org/) for data cleaning.
+
+        We warmly thank all the developers who give their time to develop these free, open-source 
+        and 
+        high quality scientific tools -- just like The Avengers, they really are true heroes.
+    """
+    )
+with c2:
+    st.markdown(
+        """
+        Sounds fun to you? And you're looking for a project to improve your Python and 
+        Bayesian chops?! Well, feel free to [contribute pull requests](
+        https://github.com/AlexAndorra/pollsposition_models) -- there is always something to do!
+
+        If you want to learn more about PollsPosition and who I am, you can take a look at this [
+        short summary](https://alexandorra.github.io/pollsposition_blog/about/). And feel free to 
+        reach out on [Twitter](https://twitter.com/alex_andorra) if you want to talk about 
+        statistical modeling under certainty, or how "polls are useless now because they missed 
+        two elections in a row!" -- yeah, I'm a bit sarcastic.
+        """
     )
