@@ -1,9 +1,10 @@
 import seaborn as sns
 import streamlit as st
 
-from utilities import main
+from utilities import generate_app_input
 
-last_update, bokeh_plot_layout, styled_raw_polls = main()
+# get input for Streamlit app:
+last_update, bokeh_plot_layout, styled_raw_polls = generate_app_input()
 
 # set up Streamlit dashboard:
 st.set_page_config(
@@ -109,7 +110,7 @@ c1, c2 = st.beta_columns(2)
 with c1:
     st.markdown(
         """
-        There are many lessons to draw from these graphs, but the main ones seem to be:
+        There are many lessons to draw from these graphs, but the generate_app_input ones seem to be:
     
         1. **French people don't seem to like their presidents that much**: their median approval 
         very rarely goes 
@@ -198,4 +199,4 @@ with column2:
         """
     )
 
-"caching, Disqus"
+# Disqus

@@ -1,11 +1,10 @@
 import pathlib
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import arviz as az
 import numpy as np
 import pandas as pd
-import streamlit as st
 import xarray as xr
 from bokeh.layouts import gridplot
 from bokeh.models import (
@@ -23,7 +22,7 @@ from bokeh.plotting import figure
 from scipy.special import expit as logistic
 
 
-#@st.cache
+# @st.cache
 def extract_constant_data(repo_path: str):
     """
     Extract all the constant data needed to make the Bokeh plot and Streamlit app.
@@ -95,10 +94,13 @@ def extract_constant_data(repo_path: str):
 )
 
 
-def main():
+def generate_app_input() -> Tuple[str, gridplot, pd.DataFrame]:
+    """
+    Generate objects needed by Streamlit to build the app
+    """
     last_update = get_last_update_date(
         reference_file_path="/Users/alex_andorra/repos/pollsposition_models/popularity/gp"
-                            "-popularity.png"
+        "-popularity.png"
     )
 
     source_df_list = []
@@ -196,15 +198,19 @@ def generate_bokeh_layout(
     complete_data: pd.DataFrame,
     random_draws_list: List[Dict[str, List]],
     source_df_list: List[pd.DataFrame],
-    post_pred_approval_list: List[xr.Dataset],
+    post_pred_approval_list: List[xr.DataArray],
 ) -> gridplot:
     """
+    Generate the final Bokeh object that will be passed to Streamlit.
 
-    :param complete_data:
-    :param random_draws_list:
-    :param source_df_list:
-    :param post_pred_approval_list:
-    :return:
+    :param complete_data: complete raw data, from models' repo.
+    :param random_draws_list: list of random draws from the posterior predictive distribution.
+                            Result of ``func: samples_subset``.
+    :param source_df_list: complete posterior inference data, as a dataframe.
+                        Result of ``func: generate_bokeh_data_source``.
+    :param post_pred_approval_list: posterior predictive approval of president, under given
+    unemployment.
+    :return: Bokeh gridplot object.
     """
     p0 = make_bokeh_plot(
         subtitle=f"stays at {complete_data.unemployment.iloc[-1]}%",
