@@ -28,15 +28,17 @@ def extract_constant_data(repo_path: str):
     Extract all the constant data needed to make the Bokeh plot and Streamlit app.
     """
     _complete_data = pd.read_csv(
-        f"{repo_path}/plot_data/complete_popularity_data.csv",
+        "https://raw.githubusercontent.com/AlexAndorra/pollsposition_models/master/popularity/plot_data/complete_popularity_data.csv",
         index_col=0,
         parse_dates=True,
     )
     _raw_polls = pd.read_csv(
-        f"{repo_path}/plot_data/raw_polls.csv", index_col=0, parse_dates=True
+        "https://raw.githubusercontent.com/AlexAndorra/pollsposition_models/master/popularity/plot_data/raw_polls.csv",
+        index_col=0,
+        parse_dates=True,
     )
     _prediction_coords = pd.read_csv(
-        f"{repo_path}/plot_data/prediction_coords.csv",
+        "https://raw.githubusercontent.com/AlexAndorra/pollsposition_models/master/popularity/plot_data/prediction_coords.csv",
         index_col=0,
         parse_dates=["timesteps"],
     )
