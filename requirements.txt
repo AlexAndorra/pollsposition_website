@@ -1,0 +1,8 @@
+streamlit
+bokeh
+numpy
+pandas
+matplotlib
+arviz
+markdown
+seaborn
