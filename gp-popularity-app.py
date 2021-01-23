@@ -199,4 +199,4 @@ with column2:
         """
     )
 
-# remove idea from git, Disqus
+# Disqus
