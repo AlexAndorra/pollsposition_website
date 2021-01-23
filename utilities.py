@@ -23,7 +23,7 @@ from bokeh.plotting import figure
 from scipy.special import expit as logistic
 
 
-@st.cache
+#@st.cache
 def extract_constant_data(repo_path: str):
     """
     Extract all the constant data needed to make the Bokeh plot and Streamlit app.
@@ -98,7 +98,7 @@ def extract_constant_data(repo_path: str):
 def main():
     last_update = get_last_update_date(
         reference_file_path="/Users/alex_andorra/repos/pollsposition_models/popularity/gp"
-                            "-popularity.png "
+                            "-popularity.png"
     )
 
     source_df_list = []
