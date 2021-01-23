@@ -28,23 +28,17 @@ def extract_constant_data():
     Extract all the constant data needed to make the Bokeh plot and Streamlit app.
     """
     BASE_URL = "https://raw.githubusercontent.com/AlexAndorra/pollsposition_models/master/popularity/plot_data"
-    _complete_data = pd.read_csv(f"{BASE_URL}/complete_popularity_data.csv",
-        index_col=0,
-        parse_dates=True,
+    _complete_data = pd.read_csv(
+        f"{BASE_URL}/complete_popularity_data.csv", index_col=0, parse_dates=True
     )
-    _raw_polls = pd.read_csv(f"{BASE_URL}/raw_polls.csv",
-        index_col=0,
-        parse_dates=True,
-    )
-    _prediction_coords = pd.read_csv(f"{BASE_URL}/prediction_coords.csv",
-        index_col=0,
-        parse_dates=["timesteps"],
+    _raw_polls = pd.read_csv(f"{BASE_URL}/raw_polls.csv", index_col=0, parse_dates=True)
+    _prediction_coords = pd.read_csv(
+        f"{BASE_URL}/prediction_coords.csv", index_col=0, parse_dates=["timesteps"]
     )
     _trace_predictions = az.from_netcdf("plot_data/trace_predictions.nc")
     _pp_prop = xr.open_dataset("plot_data/post_pred_approval.nc")
     _pp_prop_5 = xr.open_dataset("plot_data/post_pred_approval_5.nc")
     _pp_prop_10 = xr.open_dataset("plot_data/post_pred_approval_10.nc")
-
     _source_annotations = ColumnDataSource(
         data=dict(
             dates=[
@@ -97,8 +91,7 @@ def generate_app_input() -> Tuple[str, gridplot, pd.DataFrame]:
     Generate objects needed by Streamlit to build the app
     """
     last_update = get_last_update_date(
-        reference_file_path="/Users/alex_andorra/repos/pollsposition_models/popularity/gp"
-        "-popularity.png"
+        reference_file_path="plot_data/trace_predictions.nc"
     )
 
     source_df_list = []
