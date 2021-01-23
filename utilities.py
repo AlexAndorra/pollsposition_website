@@ -50,7 +50,16 @@ def extract_constant_data():
 ) = extract_constant_data()
 
 
-def generate_app_input():  # -> Tuple[str, gridplot, pd.DataFrame]:
+def generate_app_input() -> Tuple[
+    str,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    List[Dict[str, List]],
+    List[pd.DataFrame],
+    List[xr.DataArray],
+    pd.DataFrame,
+]:
     """
     Generate objects needed by Streamlit to build the app
     """
