@@ -172,7 +172,7 @@ def style_raw_polls(raw_df: pd.DataFrame) -> pd.DataFrame:
 
     :return: raw polls with human-readable column names, sorted values and sorted columns.
     """
-    return (
+    polls_styled = (
         raw_df.reset_index()
         .rename(
             columns={
@@ -197,3 +197,5 @@ def style_raw_polls(raw_df: pd.DataFrame) -> pd.DataFrame:
             ]
         ]
     )
+    polls_styled["Date"] = polls_styled["Date"].dt.normalize()
+    return polls_styled
