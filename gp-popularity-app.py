@@ -365,19 +365,19 @@ with col2:
     with exp1:
         st.markdown(
             """
-            These plots try to answer a simple question: how does the popularity of French presidents 
-            evolve with time? I compiled all the popularity opinion polls of French presidents since 
+            These plots try to answer a simple question: **how does the popularity of French presidents 
+            evolve with time?** I compiled all the popularity opinion polls of French presidents since 
             the term limits switched to 5 years (in 2002), so we can also compare presidents and see
-            that popularity is very periodic.
+            that **popularity is very periodic**.
             
-            Each line is a possible path for any president's approval, taking into account historical 
+            **Each line is a possible path for any president's approval**, taking into account historical 
             variations, honeymoon effects (i.e when a president gets elected), the variation in the 
             unemployment rate, and temporal variations due to periodic effects withing a presidential 
             term.
             
-            As each line is a possible scenario, the more concentrated the path, the more probable the
-            associated scenario. In contrast, you can see that some paths are all alone (😢), which
-            means that they can't be excluded, given our model and the observed data, but they have a
+            As each line is a possible scenario, **the more concentrated the paths, the more probable the
+            associated scenario**. In contrast, you can see that some paths are all alone (😢), which
+            means that they can't be discarded, given our model and the observed data, but they have a
             low probability of happening.
             
             By the way, the plots are fully interactive, so fell free to play around with them -- you
@@ -389,21 +389,31 @@ with col2:
     with exp2:
         st.markdown(
             """
-            Each plot makes out-of-sample predictions (i.e for which we have no data yet) for the next 
-            three months. But each one of them simulates a different future universe, if you will: the 
+            **Each plot makes out-of-sample predictions** (i.e for which we have no data yet) **for the next 
+            three months**. But each one of them **simulates a different future universe**, if you will: the 
             first one imagines that the unemployment rate stays more or less the same in the next 
             quarter, while the second one tries to guess what would happen to the president's popularity
             if unemployment were to drop to 5%. What about the third one? You guessed it: it simulates a
             world where unemployment jumps to 10%. 
     
             Of course, this is not very realistic, as unemployment rarely changes that drastically, 
-            but this helps us to develop a probabilistic way of thinking, which is very useful in 
+            but this helps us to **develop a probabilistic way of thinking**, which is very useful in 
             uncertain situations -- like poker, medical diagnosis, or, you know, just life in general 🤷‍♂️
             
             It also helps further evaluate the model: if the different scenarios and their relative 
             differences are consistent with domain knowledge, this is a good point for our model.
             
-            In a nutshe
+            In a nutshell, you can notice that **popularity and unemployment are quite correlated**, as
+            we would expect: if unemployment were to drop to 5%, which is historically very low, the
+            president would very probably get a big bump of popularity, going into high territory
+            for a French president (around 60% approval).
+            
+            But we can see that **there seems to be floor effects**: if unemployment were to jump to 10%
+            (a very high number historically), the model expects Macron to lose only a bit (2-3%),
+            but not to go to Hollande's abyss. It's probably because the polls are telling a 
+            different story: voters have factored in the possible deterioration of the economic 
+            situation, and they wouldn't blame Macron entirely for it -- there is still a global
+            pandemic going on. 
             """
         )
     exp3 = st.beta_expander("How does it work?", expanded=True)
@@ -423,12 +433,12 @@ with col2:
     with exp4:
         st.markdown(
             """
-            All of them! At least to the best of my abilities: this has to be done by hand (there 
+            All of them! At least to the best of my abilities: this has to be done by hand -- there 
             aren't a lot of polls each months, so developing a little robot for each pollster to 
             automate that isn't really worth the trouble.
             
-            All the data are open-sourced and free to access. So, if you see some polls missing or want 
-            to contribute new ones, feel free to open pull requests on the 
+            All the data are open-sourced and free to access. So, **if you see some polls missing or want 
+            to contribute new ones, feel free to open pull requests** on the 
             [GitHub repo](https://github.com/AlexAndorra/pollsposition_models/blob/master/data/raw_popularity_presidents.csv)! 
             """
         )
