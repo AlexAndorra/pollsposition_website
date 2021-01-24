@@ -3,7 +3,11 @@
 
 Dashboards for electoral forecasting models in PyMC3
 
-This website is a collection of dashboards displaying the results of electoral forecasting models implemented in PyMC3. For now, the models are focused on forecasting French elections.
+This repository is a collection of dashboards displaying the results of electoral forecasting models implemented in PyMC3. For now, the models are focused on forecasting French elections.
+
+- Gaussian Process regression to forecast how French presidents' approval evolves with time:
+  - [Interactive dashboard](https://share.streamlit.io/alexandorra/pollsposition_website/main/gp-popularity-app.py)
+  - [Tutorial notebook](https://alexandorra.github.io/pollsposition_blog/popularity/macron/gaussian%20processes/polls/2021/01/18/gp-popularity.html)
 
 ## What is it?
 
@@ -20,7 +24,7 @@ tools -- just like The Avengers, they really are true heroes.
 
 ## Who is it?
 
-This project and is maintained and spearheaded by Alexandre Andorra, with the brilliant help of Alexis Bergès.
+This project is maintained and spearheaded by [Alexandre Andorra](https://twitter.com/alex_andorra), with the brilliant help of Alexis Bergès.
 
 By day, I'm a Bayesian modeler at the <a href="https://www.pymc-labs.io/" target="_blank">PyMC Labs consultancy</a> and
 host the most popular podcast dedicated to Bayesian inference out there -- aka
