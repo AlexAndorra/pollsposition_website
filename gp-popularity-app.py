@@ -19,6 +19,7 @@ from bokeh.models import (
 )
 from bokeh.palettes import cividis, inferno, viridis
 from bokeh.plotting import figure
+from streamlit_disqus import st_disqus
 
 from utilities import generate_app_input
 
@@ -512,9 +513,9 @@ with c2:
         """
     )
 
-st.subheader("About PollsPosition")
 column1, column2 = st.beta_columns(2)
 with column1:
+    st.subheader("About PollsPosition")
     st.markdown(
         """
         The PollsPosition project is an [open-source](
@@ -528,11 +529,7 @@ with column1:
 
         We warmly thank all the developers who give their time to develop these free, open-source 
         and high quality scientific tools -- just like The Avengers, they really are true heroes.
-        """
-    )
-with column2:
-    st.markdown(
-        """
+        
         Sounds fun to you? And you're looking for a project to improve your Python and 
         Bayesian chops?! Well, feel free to [contribute pull requests](
         https://github.com/AlexAndorra/pollsposition_models) -- there is always something to do!
@@ -544,5 +541,6 @@ with column2:
         two elections in a row!" -- yeah, I'm a bit sarcastic.
         """
     )
-
-# Disqus: https://share.streamlit.io/okld/streamlit-disqus-demo/main/app.py
+with column2:
+    st.subheader("Questions, Suggestions, Praise?")
+    st_disqus("pollsposition-popularity")
