@@ -6,3 +6,4 @@ matplotlib
 arviz
 markdown
 seaborn
+streamlit-disqus
