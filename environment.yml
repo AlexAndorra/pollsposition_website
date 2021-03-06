@@ -1,0 +1,15 @@
+name: pp-website
+channels:
+  - conda-forge
+dependencies:
+  - arviz
+  - bokeh
+  - markdown
+  - matplotlib
+  - numpy
+  - pandas
+  - python=3.8
+  - seaborn
+  - streamlit=0.74
+  - pip:
+      - streamlit-disqus=0.1
