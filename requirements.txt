@@ -1,9 +1,9 @@
-streamlit
-bokeh
-numpy
-pandas
-matplotlib
 arviz
+bokeh == 2.2.3
 markdown
+matplotlib == 3.3.3
+numpy
+pandas == 1.2.1
 seaborn
-streamlit-disqus
+streamlit == 0.74.1
+streamlit-disqus == 0.1.3
