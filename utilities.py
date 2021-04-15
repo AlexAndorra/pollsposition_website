@@ -197,5 +197,6 @@ def style_raw_polls(raw_df: pd.DataFrame) -> pd.DataFrame:
             ]
         ]
     )
-    polls_styled["Date"] = polls_styled["Date"].dt.normalize()
+    #polls_styled["Date"] = polls_styled["Date"].dt.normalize()
+    polls_styled["Date"] = polls_styled["Date"].dt.strftime('%d %b %Y')
     return polls_styled
