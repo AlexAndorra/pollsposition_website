@@ -5,5 +5,5 @@ matplotlib == 3.3.3
 numpy
 pandas == 1.2.1
 seaborn
-streamlit == 0.74.1
+streamlit == 0.80.0
 streamlit-disqus == 0.1.3
