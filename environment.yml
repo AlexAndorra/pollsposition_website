@@ -7,9 +7,9 @@ dependencies:
   - markdown
   - matplotlib
   - numpy
-  - pandas
+  - pandas=1.2
   - python=3.8
   - seaborn
-  - streamlit=0.74
+  - streamlit=0.80
   - pip:
       - streamlit-disqus=0.1
