@@ -506,7 +506,7 @@ with c2:
         would be more popular?
          
         5. **It's hard to argue for a "Covid effect"**. Macron gained 5 points between March and June 
-        2020, going from 38% to 43*, but this "rally around the flag" faded away during the Summer.
+        2020, going from 38% to 43%, but this "rally around the flag" faded away during the Summer.
         Most importantly, those numbers are in the historical average (33%-42%), which seems to be 
         Macron's cruising speed. As a result, things would have to go much worse (resp. much better) for
         him to start loosing (resp. gaining) popularity, as we can see in plot #3 (resp. #2).
